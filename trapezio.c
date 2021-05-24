@@ -3,44 +3,57 @@
 
 typedef struct {
     int grau;
-    float *coeficientes;
     float intervaloInicial;
     float intervaloFinal;
 } polinomial;
 
 void main () {
     polinomial *polinomio = NULL;
+    float *coeficientes = NULL;
 
-    alocaPolinomio(&polinomio,1);
+    alocaPolinomial(&polinomio,1);
 
     recebeGrauPolinomio(polinomio);
 
-    alocaFloat(&polinomio->coeficientes, polinomio->grau); // Arrumar
+    mostrarFormatoPolinomio(polinomio);
 
-    recebeCoeficientes(polinomio);
+    alocaFloat(&coeficientes, polinomio->grau + 1);
+
+    recebeCoeficientes(coeficientes, polinomio);
 }
 
-void recebeCoeficientes(polinomial *polinomio){
+void recebeCoeficientes(float *coeficientes, polinomial *polinomio){
 	int contador;
+    char coeficienteLetra = 'a';
 
 	printf("\n--- Digite os valores dos coeficientes ---\n");
 
-	for(contador=0; contador < polinomio->grau; contador++){
-		printf("x[%d] = ",contador);
-		scanf("%f",&(polinomio->coeficientes)+contador); //Arrumar
-	}
-
-    	for(contador=0; contador < polinomio->grau; contador++){
-		printf("x[%d] = ",(polinomio->coeficientes)+contador);
+	for(contador=0; contador < polinomio->grau + 1; contador++, coeficienteLetra++){
+		printf("Valor de %c = ",coeficienteLetra);
+        fflush(stdin);
+		scanf("%f",coeficientes+contador);
 	}
 }
 
 void recebeGrauPolinomio(polinomial *polinomio){
 	printf("\nGrau do polinomio: ");
+    fflush(stdin);
 	scanf("%d",&polinomio->grau);
 }
 
-void alocaPolinomio(polinomial **p, int tam) {
+void mostrarFormatoPolinomio(polinomial *polinomio) {
+    int contador, expoente;
+    char coeficienteLetra = 'a';
+
+    printf("\n");
+    printf("%cx^%i ", coeficienteLetra++, polinomio->grau);
+    for(contador=0, expoente = polinomio->grau -1; contador < polinomio->grau - 1; contador++, expoente--, coeficienteLetra++) {
+        printf("+ %cx^%i ",coeficienteLetra,expoente);
+    }
+    printf("+ %c = 0\n", coeficienteLetra);
+}
+
+void alocaPolinomial(polinomial **p, int tam) {
     if((*p=(polinomial*)realloc(*p,tam*sizeof(polinomial)))==NULL){
         printf("\nFalha na alocacao dinamica !(polinomio)\n");
         exit(1);
