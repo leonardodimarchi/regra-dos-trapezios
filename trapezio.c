@@ -11,15 +11,37 @@ void main () {
     polinomial *polinomio = NULL;
     float *coeficientes = NULL;
 
+    //Procedimentos iniciais para criacaoo do polinomio.
     alocaPolinomial(&polinomio,1);
-
     recebeGrauPolinomio(polinomio);
-
     mostrarFormatoPolinomio(polinomio);
 
+    //Aloca os coeficientes, com espaco para uma constante para entao recebe-los.
     alocaFloat(&coeficientes, polinomio->grau + 1);
-
     recebeCoeficientes(coeficientes, polinomio);
+
+    recebeIntervalo(polinomio);
+}
+
+void recebeIntervalo(polinomial *polinomio) {
+    float aux;
+
+    printf("\nIntervalo inicial: ");
+    scanf("%f", &polinomio->intervaloInicial);
+
+    printf("Intervalo final: ");
+    scanf("%f", &polinomio->intervaloFinal);
+
+    if (polinomio->intervaloInicial > polinomio->intervaloFinal) {
+        printf("\nOs valores de intervalo foram reajustados: ");
+        printf("\n- Intervalo inicial: %.2f", polinomio->intervaloInicial);
+        printf("\n- Intervalo final: %.2f", polinomio->intervaloFinal);
+
+        aux = polinomio->intervaloFinal;
+
+        polinomio->intervaloFinal = polinomio->intervaloInicial;
+        polinomio->intervaloInicial = aux;
+    }
 }
 
 void recebeCoeficientes(float *coeficientes, polinomial *polinomio){
