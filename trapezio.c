@@ -20,20 +20,21 @@ typedef struct {
     float fX;
 } linhaTabela;
 
-float calcularFuncao(float *coeficientes, integral *polinomio, float x);
+//Prototipo das funcoes gerais
+void calculaMostraIntegralTrapezio(linhaTabela *linhasTabela, resultadoTrapezio *resultados);
 void calculaValoresTabela(linhaTabela *linhasTabela, integral *polinomio, resultadoTrapezio *resultados, float *coeficientes);
-void calculaValorH(integral *polinomio, resultadoTrapezio *resultados);
-void recebeIntervaloComDivisoes(integral *polinomio, resultadoTrapezio *resultado);
-void recebeCoeficientes(float *coeficientes, integral *polinomio);
-void recebeGrauPolinomio(integral *polinomio);
+void mostraTabela(linhaTabela *linhasTabela, resultadoTrapezio *resultados);
+void calculaMostraValorH(integral *polinomio, resultadoTrapezio *resultados);
+void recebeIntervalo(integral *polinomio);
 void mostrarFormatoPolinomio(integral *polinomio);
+float calcularFuncao(float *coeficientes, integral *polinomio, float x);
 
 //Prototipo das funcoes de alocacao
-void alocaInt(int **p, int tam);
-void alocaFloat(float **p, int tam);
-void alocaLinhaTabela(linhaTabela **p, int tam);
-void alocaResultado(resultadoTrapezio **p, int tam);
 void alocaIntegral(integral **p, int tam);
+void alocaResultado(resultadoTrapezio **p, int tam);
+void alocaLinhaTabela(linhaTabela **p, int tam);
+void alocaFloat(float **p, int tam);
+void alocaInt(int **p, int tam);
 
 void main () {
     integral *polinomio = NULL;
@@ -59,7 +60,6 @@ void main () {
         recebeIntervalo(polinomio);
 
         do {
-                
             //Recebe a quantidade de trapezios / divisoes que serao feitas
             recebeNumeroDivisoes(polinomio, resultados);
 
@@ -75,8 +75,6 @@ void main () {
 
             //Calcula a integral do trapezio ( (h/2) * ( f(x_0) + f(x_n) + 2*SOMA_INTERVALOS( f(x_k) ) ) )
             calculaMostraIntegralTrapezio(linhasTabela, resultados);
-
-            //TODO: ver se da pra implementar o erro dos trapezios
 
             //Pergunta se deseja clacular a partir de outro numero de trapezios
             printf("\n\nDeseja calcular com outro numero de divisao (trapezios) ? [s / n]: ");
@@ -125,11 +123,11 @@ void calculaValoresTabela(linhaTabela *linhasTabela, integral *polinomio, result
 }
 
 float calcularFuncao(float *coeficientes, integral *polinomio, float x) {
-    int contador;
-    float resultado = *(coeficientes + polinomio->grau);
+    int contador, expoente;
+    float resultado = 0;
 
-    for(contador=1; contador <= polinomio->grau; contador++) {
-        resultado += *(coeficientes+contador) * pow(x, contador);
+    for(contador=0, expoente=polinomio->grau; contador <= polinomio->grau; contador++, expoente--) {
+        resultado += *(coeficientes+contador) * pow(x, expoente);
     }
 
     return resultado;
@@ -183,7 +181,6 @@ void recebeIntervalo(integral *polinomio) {
         polinomio->intervaloFinal = polinomio->intervaloInicial;
         polinomio->intervaloInicial = aux;
     }
-
 }
 
 void recebeCoeficientes(float *coeficientes, integral *polinomio) {
