@@ -118,7 +118,11 @@ void calculaMostraIntegralTrapezio(linhaTabela *linhasTabela, resultadoTrapezio 
 
     resultados->resultadoIntegral = (resultados->valorH / 2) * (linhasTabela->fX + (linhasTabela + resultados->quantidadeLinhasTabela-1)->fX + 2*somaIntervalos);
 
-    printf("\n\n\tITR = %.4f", resultados->resultadoIntegral);
+    if (resultados->resultadoIntegral < 0) {
+        printf("\n\n\tITR = %.4f", -resultados->resultadoIntegral);
+    } else {
+        printf("\n\n\tITR = %.4f", resultados->resultadoIntegral);
+    }
 }
 
 void calculaValoresTabela(linhaTabela *linhasTabela, integral *polinomio, resultadoTrapezio *resultados, float *coeficientes) {
