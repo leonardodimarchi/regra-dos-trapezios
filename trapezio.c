@@ -234,7 +234,6 @@ void recebeGrauPolinomio(integral *polinomio){
             printf("\nPor favor, insira o grau respeitando o valor maximo (max: 10).\n");
         }
     }while(polinomio->grau > 10);
-	
 }
 
 void mostrarFormatoPolinomio(integral *polinomio) {
