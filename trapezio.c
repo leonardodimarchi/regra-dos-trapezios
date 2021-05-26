@@ -1,25 +1,30 @@
+//Bibliotecas
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
 
 //Estruturas
+
+//Armazena os valores relacionados a construcao da integral 
 typedef struct {
     int grau;
     float intervaloInicial;
     float intervaloFinal;
 } integral;
 
+//Armazena variaveis importantes para a realizacao do metodo
 typedef struct {
     int numeroDivisoes;
     int quantidadeLinhasTabela;
     float valorH;
     float resultadoIntegral;
-} resultadoTrapezio;
+} resultadoTrapezio; 
 
+//Representa uma linha da tabela de valores, sendo utilizado em um "array" para compor a tabela completa
 typedef struct {
     float x;
     float fX;
-} linhaTabela;
+} linhaTabela; 
 
 //Prototipo das funcoes gerais
 void calculaMostraIntegralTrapezio(linhaTabela *linhasTabela, resultadoTrapezio *resultados);
@@ -38,12 +43,9 @@ void alocaFloat(float **p, int tam);
 void alocaInt(int **p, int tam);
 
 void main () {
-    //Ponteiro que representa o polinomio a ser trabalhado
-    integral *polinomio = NULL;
-    //Ponteiro que possui os resultados/valores importantes para realizar o metodo
-    resultadoTrapezio *resultados = NULL;
-    //Ponteiro utilizado para armazenar as linhas da tabela de valores
-    linhaTabela *linhasTabela = NULL;
+    integral *polinomio = NULL; //Ponteiro que representa o polinomio a ser trabalhado
+    resultadoTrapezio *resultados = NULL; //Ponteiro que possui os resultados/valores importantes para realizar o metodo
+    linhaTabela *linhasTabela = NULL; //Ponteiro utilizado para armazenar as linhas da tabela de valores
 
     float *coeficientes = NULL;
     char perguntaRepeticaoMesmaIntegracao = 'n', perguntaRepeticaoOutraIntegracao = 'n';
